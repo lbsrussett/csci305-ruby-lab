@@ -15,14 +15,17 @@ $name = "Laura Sullivan-Russett"
 # function to process each line of a file and extract the song titles
 def process_file(file_name)
 	puts "Processing File.... "
-
 	begin
 		IO.foreach(file_name) do |line|
 			title = clean_title(line)
-			puts title 
-			
+			begin
+				if(title =~ /^[A-za-z' 0-9]+$/)
+					puts title.downcase
+			end	
 			# do something for each line
 		end
+	end
+		
 		puts "Finished. Bigram model built.\n"
 	rescue
 		STDERR.puts "Could not open file"
@@ -36,8 +39,21 @@ def clean_title(line)
 	str.sub!(/\A.*<([A-Z]+)>/, "")
 	str.sub!(/[\(\[\{\\\/_\-:\"`\+=\*].*/, "")
 	str.sub!(/\bfeat\b.*/, "")
+	str.gsub!(/[?¿!¡\.;\&@\%#|]/, "")
 	return str
 end
+
+# def ignore_noneng(titles)
+# 	title_arr = Array.new()
+# 	begin
+# 		titles.each { |line| }
+			
+# 				title_arr.push(line)
+# 			end
+# 	end
+# 	return title_arr
+
+
 
 # Executes the program
 def main_loop()
